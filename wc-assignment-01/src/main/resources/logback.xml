@@ -1,0 +1,16 @@
+<configuration>
+
+    <!-- Console appender: Outputs log to the console (standard output) -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- The log pattern can be customized -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root logger: For general logging in the application -->
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>
