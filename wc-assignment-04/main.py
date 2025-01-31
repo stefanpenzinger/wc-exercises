@@ -5,6 +5,8 @@ import pandas as pd
 import scipy
 from scipy.signal import welch
 
+path_prefix = "./java-implementation/src/main/resources"
+
 
 def compute_rmssd(rr_intervals_ms):
     rr_diff = np.diff(rr_intervals_ms)
@@ -51,7 +53,7 @@ def __calc_respiration_rate_and_lf_hf_ratio(rr_data):
 
 def main():
     # Read the patient metadata
-    df_info = pd.read_csv("data/patient-info.csv")
+    df_info = pd.read_csv(f'{path_prefix}/patient-info.csv')
     df_adults = df_info[df_info['Age (years)'] >= 18]
     results = []  # to store results per patient
 
@@ -60,7 +62,7 @@ def main():
         age = row['Age (years)']
         gender = row['Gender']  # might be NaN or unavailable for some
 
-        rr_file = f"data/{file_id}.txt"
+        rr_file = f'{path_prefix}/{file_id}.txt'
         if not os.path.exists(rr_file):
             print(f"Warning: RR file {rr_file} not found; skipping.")
             continue
@@ -69,7 +71,7 @@ def main():
         rmssd_val = compute_rmssd(rr_data)
         respiration_rate, lf_hf_ratio = __calc_respiration_rate_and_lf_hf_ratio(rr_data)
         results.append({"File": file_id, "Age (years)": age, "Gender": gender, "RMSSD (ms)": rmssd_val,
-            "Resp Rate (bpm)": respiration_rate, "LF/HF Ratio": lf_hf_ratio})
+                        "Resp Rate (bpm)": respiration_rate, "LF/HF Ratio": lf_hf_ratio})
 
     df_results = pd.DataFrame(results)
     print(df_results)
